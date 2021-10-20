@@ -8,7 +8,7 @@ def greetings():
     return render_template("greetings.html")
 
 
-@app.route("/calc/<int:x>/<int:y>/<string:operator>")
+@app.route("/calc/<int:x>/<int:y>/<string:operator>", methods=["GET", "POST"])
 def calc(x, y, operator):
     if operator == "sum" or operator == "+":
         return render_template("calc.html", x=x, y=y, operator="+", result=x + y)
