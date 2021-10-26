@@ -5,9 +5,11 @@ services:
     build:
       context: ./
       dockerfile: docker/python/Dockerfile
-    container_name: 'flask-intro'
+    container_name: 'flask-renee'
+    env_file:
+      - .env
     volumes:
-      - .:/flask
+      - .:/application
     ports:
       - "8080:8080"
     networks:

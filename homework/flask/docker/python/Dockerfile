@@ -1,8 +1,8 @@
 FROM python:3.8.12
 
-WORKDIR /application
+WORKDIR /flask
 
-COPY ./requirements.txt /application/requirements.txt
+COPY ./requirements.txt /flask/requirements.txt
 
 RUN pip install -r requirements.txt
 
