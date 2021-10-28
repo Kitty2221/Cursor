@@ -1,5 +1,6 @@
 from unittest import TestCase, main as unittest_main
 from app import app
+#test /weather
 
 
 class PlaylistsTests(TestCase):
