@@ -25,8 +25,8 @@ class SalonSingleResource(Resource):
         return salon.serialize
 
     # def put(self, id):
-    #    data = request.json
-    #    Salon.update_by_id(id, data)
+    #   data = request.json
+    #   Salon.update_by_id(id, data)
     #   return Salon.get_by_id(id)
 
     def delete(self, id):
