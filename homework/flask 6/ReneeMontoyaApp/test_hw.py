@@ -1,77 +1,127 @@
 import pytest
-from app import app, db
+from fixtures import *
+import json
 
 
-@pytest.fixture
-def client():
-    app.testing = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://flask:flask@db:3306/flask'
-    client = app.test_client()
-    with app.app_context():
-        db.create_all()
-        db.session.commit()
-    yield client
+def test_plant_post(client, plant_data):
+    res = client.post("/api/v1/plants", json=plant_data)
+    assert res.status_code == 200
+    assert (b'Test' in res.data)
 
 
-def test_get_plant(client):
+def test_get_plants(client):
     res = client.get("/api/v1/plants")
     assert res.status_code == 200
-    assert ('Lviv', str(res.data))
+    assert (b'Test' in res.data)
 
 
-def test_api_can_get_plant_by_id(client):
+def test_get_single_plant(client):
     res = client.get('/api/v1/plants/1')
-    assert (res.status_code, 200)
-    assert ('Ooo', str(res.data))
+    assert res.status_code == 200
+    assert (b'Test' in res.data)
 
 
-def test_plant_deletion(client):
-    res = client.delete('/api/v1/plants/31')
-    assert (res.status_code, 204)
-    res = client.get('/api/v1/plants/31')
-    assert (res.status_code, 404)
+def test_update_plant(client, upd_plant_data):
+    res = client.put("/api/v1/plants/5", json=upd_plant_data)
+    assert res.status_code == 200
+    assert (b'NEW_Text' in res.data)
 
 
-def test_get_employee(client):
+def test_plant_delete(client):
+    res = client.delete('/api/v1/plants/8')
+    assert res.status_code == 204
+    res = client.get('/api/v1/plants/8')
+    assert res.status_code == 404
+
+
+def test_employee_post(client, employee_data):
+    res = client.post("/api/v1/employees", json=employee_data)
+    assert res.status_code == 200
+    assert (b'Test' in res.data)
+
+
+def test_get_employees (client):
     res = client.get("/api/v1/employees")
     assert res.status_code == 200
-    assert ('Kiee@gmail.com', str(res.data))
+    assert (b'Test' in res.data)
 
 
-def test_api_can_get_employee_by_id(client):
-    res = client.get('/api/v1/employees/5')
-    assert (res.status_code, 200)
-    assert ('Kitty', str(res.data))
+def test_get_single_employee(client):
+    res = client.get('/api/v1/employees/1')
+    assert res.status_code == 200
+    assert (b'Test' in res.data)
 
 
-def test_employee_deletion(client):
-    res = client.delete('/api/v1/employees/10')
-    assert (res.status_code, 204)
-    res = client.get('/api/v1/employees/10')
-    assert (res.status_code, 404)
+def test_update_employee(client, upd_employee_data):
+    res = client.put("/api/v1/employees/6", json=upd_employee_data)
+    assert res.status_code == 200
+    assert (b'NEW_Text' in res.data)
+
+
+def test_employees_delete(client):
+    res = client.delete('/api/v1/employees/8')
+    assert res.status_code == 204
+    res = client.get('/api/v1/employees/8')
+    assert res.status_code == 404
+
+
+def test_salon_post(client, salon_data):
+    res = client.post("/api/v1/salons", json=salon_data)
+    assert res.status_code == 200
+    assert (b'Test' in res.data)
 
 
 def test_get_salons(client):
     res = client.get("/api/v1/salons")
     assert res.status_code == 200
-    assert ('str Molodi 112/1', str(res.data))
+    assert (b'Test' in res.data)
 
 
-def test_api_can_get_salons_by_id(client):
-    res = client.get('/api/v1/salons/4')
-    assert (res.status_code, 200)
-    assert ('Silpo', str(res.data))
-
-
-def test_salons_deletion(client):
-    res = client.delete('/api/v1/salons/7')
-    assert (res.status_code, 204)
-    res = client.get('/api/v1/salons/7')
-    assert (res.status_code, 404)
-
-
-def test_get_models(client):
-    res = client.get("/api/v1/salons")
+def test_get_single_salon(client):
+    res = client.get('/api/v1/salons/1')
     assert res.status_code == 200
-    assert ('plants', str(res.data))
+    assert (b'Test' in res.data)
 
+
+def test_update_salon(client, upd_salon_data):
+    res = client.put("/api/v1/salons/3", json=upd_salon_data)
+    assert res.status_code == 200
+    assert (b'NEW_Text' in res.data)
+
+
+def test_salons_delete(client):
+    res = client.delete('/api/v1/salons/8')
+    assert res.status_code == 204
+    res = client.get('/api/v1/salons/8')
+    assert res.status_code == 404
+
+
+def test_menu_item_post(client, menu_item_data):
+    res = client.post("/api/v1/menu-items", json=menu_item_data)
+    assert res.status_code == 200
+    assert (b'Test' in res.data)
+
+
+def test_get_menu_items(client):
+    res = client.get("/api/v1/menu-items")
+    assert res.status_code == 200
+    assert (b'Test' in res.data)
+
+
+def test_get_single_menu_item(client):
+    res = client.get('/api/v1/menu-items/1')
+    assert res.status_code == 200
+    assert (b'Test' in res.data)
+
+
+def test_update_menu_item(client, upd_menu_item_data):
+    res = client.put("/api/v1/menu-items/3", json=upd_menu_item_data)
+    assert res.status_code == 200
+    assert (b'NEW_Text' in res.data)
+
+
+def test_menu_item_destroy(client):
+    res = client.delete('/api/v1/menu-items/8')
+    assert res.status_code == 204
+    res = client.get('/api/v1/menu-items/8')
+    assert res.status_code == 404
