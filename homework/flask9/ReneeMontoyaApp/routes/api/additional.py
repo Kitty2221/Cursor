@@ -13,8 +13,8 @@ class MenuItemResource(Resource):
     def post(self):
         request_data = request.json
         menu_item = MenuItem(
-            name = request_data['name'],
-            link = request_data['link'],
+            name=request_data['name'],
+            link=request_data['link'],
             is_active=request_data['is_active']
         )
         db.session.add(menu_item)

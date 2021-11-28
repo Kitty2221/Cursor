@@ -5,7 +5,7 @@
 <section class="plant-page col-sm-12 text-center">
     <h1 class="text-center">Edit Salon</h1>
     <div class="text-center col-sm-4 offset-sm-4">
-        <form action="{{ url_for('salon_update', id=salon.id) }}" method="POST">
+        <form action="{{ url_for('salon_update', id =salon.id) }}" method="POST">
             <div class="form-group">
                 <label for="name">Name: </label>
                 <input class="form-control" name="name" id="name" value="{{ salon.name }}">

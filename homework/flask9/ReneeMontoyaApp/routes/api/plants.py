@@ -59,3 +59,4 @@ class PlantDirectorResource(Resource):
 api.add_resource(PlantDirectorResource, '/api/v1/plants/<int:id>/director')
 api.add_resource(PlantResource, "/api/v1/plants")
 api.add_resource(PlantSingleResource, "/api/v1/plants/<int:id>")
+
