@@ -1,8 +1,10 @@
 from app import app, db
 from flask import render_template, request, redirect, url_for, session,flash
 from models import Plant, Employee, Salon
-
-
+from utils.helpers import encrypt_string
+from utils.helpers import convert_list
+from sqlalchemy import or_
+import json
 @app.route('/')
 def main():
     plants = Plant.query.all()
@@ -20,8 +22,8 @@ def login():
 @app.route('/auth', methods=['POST'])
 def auth():
     form = request.form
-    user = Employee.query.filter(Employee.email == form['login']).filter(Employee.password == form['password']).first()
-    print("Hello AUTH:")
+    user = Employee.query.filter(Employee.email == form['login']).filter(
+        Employee.password == encrypt_string(form['password'])).first()
     print(user)
     if user is not None:
         session['user'] = user.serialize
@@ -42,6 +44,8 @@ def plant(id):
 
 @app.route('/plant/<int:id>/edit')
 def plant_edit_page(id):
+    if session.get('user') is None:
+        return redirect(url_for('main'))
     plant = Plant.query.get(id)
     employees = Employee.query.all()
     return render_template('edit-plant.html', plant=plant, employees=employees, session=session)
@@ -80,6 +84,8 @@ def employee_update(id):
 
 @app.route('/employee/<int:id>/edit')
 def employee_edit_page(id):
+    if session.get('user') is None:
+        return redirect(url_for('main'))
     employee = Employee.query.get(id)
     plants = Plant.query.all()
     salons = Salon.query.all()
@@ -106,5 +112,8 @@ def salon_update(id):
 
 @app.route('/salon/<int:id>/edit')
 def salon_edit_page(id):
+    if session.get('user') is None:
+        return redirect(url_for('main'))
     salon = Salon.query.get(id)
     return render_template('edit-salon.html', salon=salon, session=session)
+

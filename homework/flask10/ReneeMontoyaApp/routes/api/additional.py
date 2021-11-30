@@ -1,8 +1,10 @@
 from app import db, app, api
 from flask_restful import Resource
 from flask import request
+from sqlalchemy import or_
 from models import MenuItem
 from utils.helpers import convert_list
+from models import MenuItem, Employee, Plant, Salon
 
 
 class MenuItemResource(Resource):
@@ -33,5 +35,16 @@ class MenuItemSingleResource(Resource):
         return menu_item.serialize
 
 
+class SearchResource(Resource):
+    def get(self):
+        q = request.args.get('q')
+        employees = Employee.query.filter(or_(Employee.name.ilike(f'%{q}%'), Employee.email.ilike(f'%{q}%'))).all()
+        plants = Plant.query.filter(or_(Plant.name.ilike(f'%{q}%'), Plant.location.ilike(f'%{q}%'))).all()
+        salons = Salon.query.filter(or_(Salon.name.ilike(f'%{q}%'), Salon.city.ilike(f'%{q}%'), Salon.address.ilike(f'%{q}%'))).all()
+        return convert_list(employees + plants + salons)
+
+
+
 api.add_resource(MenuItemResource, '/api/v1/menu-items')
 api.add_resource(MenuItemSingleResource, '/api/v1/menu-items/<int:id>')
+api.add_resource(SearchResource, '/api/v1/search')
