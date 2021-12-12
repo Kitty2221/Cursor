@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: 'django_tutorial'
+    env_file:
+      - .env
+    volumes:
+      - .:/application
+    ports:
+      - "8081:8081"
+    networks:
+      - app
+    depends_on:
+      - db
+
+
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: django1
+      MYSQL_USER: django1
+      MYSQL_PASSWORD: django1
+    networks:
+      - app
+    volumes:
+      - db_data:/var/lib/mysql
+
+
+networks:
+  app:
+    driver: bridge
+
+volumes:
+  db_data:
