@@ -5,12 +5,13 @@ services:
     build:
       context: ./
       dockerfile: docker/python/Dockerfile
-    container_name: 'flask-renee'
-
+    container_name: 'flask-hw_2'
+    env_file:
+      - .env
     volumes:
       - .:/application
     ports:
-      - '9000:9000'
+      - 9000:9000
     networks:
       - app
 
