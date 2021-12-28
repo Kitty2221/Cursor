@@ -11,6 +11,6 @@ class A:
     def hello_static(cls):
         print(cls.address)
 
-
-A.hello_static()
+#
+# A.hello_static()
 

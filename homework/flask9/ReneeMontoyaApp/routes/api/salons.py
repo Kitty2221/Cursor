@@ -24,10 +24,16 @@ class SalonSingleResource(Resource):
         salon = Salon.query.get(id)
         return salon.serialize
 
-    # def put(self, id):
-    #   data = request.json
-    #   Salon.update_by_id(id, data)
-    #   return Salon.get_by_id(id)
+    def put(self, id):
+        data = request.json
+        salon = Salon.query.get(id)
+        salon.name = data['name'] if data.get('name', False) else salon.name
+        salon.city = data['city'] if data.get('city', False) else salon.city
+        salon.address = data['address'] if data.get('address', False) else salon.address
+        salon.director_id = data['director_id'] if data.get('director_id', False) else salon.director_id
+        db.session.add(salon)
+        db.session.commit()
+        return salon.serialize
 
     def delete(self, id):
         salon = Salon.query.get(id)
