@@ -26,7 +26,7 @@
                         <option value="{{ plant.id }}" {% if department_id == plant.id %}} selected {% endif %}>{{ plant.name }}</option>
                     {% endfor %}
                     {% for salon in salons %}
-                        <option value="{{ salon.id }}" {% if department_id == salon.id % }} selected {% endif %}>{{ salon.name }}</option>
+                        <option value="{{ salon.id }}" {% if department_id == salon.id %}} selected {% endif %}>{{ salon.name }}</option>
                     {% endfor %}
                 </select>
             </div>

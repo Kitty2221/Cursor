@@ -16,11 +16,11 @@
                     <div class="content">{{ plant.location }}</div>
                     <div class="content">{{ plant.director.name }} - {{ plant.director.email }}</div>
                 </div>
-
-                <div class="col-sm-12 text-center">
-                    <a href="{{ url_for('plant_edit_page', id=plant.id) }}" class="btn btn-info">Edit</a>
-                </div>
-            </div>
+                {% if session.get('user', False) %}
+                    <div class="col-sm-12 text-center">
+                        <a href="{{ url_for('plant_edit_page', id=plant.id) }}" class="btn btn-info">Edit</a>
+                    </div>
+                {% endif %}
         </div>
     </div>
 </section>

@@ -16,10 +16,11 @@
                     <div class="content">{{ salon.city}}</div>
                     <div class="content">{{ salon.address }} </div>
                 </div>
-
+                {% if session.get('user', False) %}
                 <div class="col-sm-12 text-center">
                     <a href="{{ url_for('salon_edit_page', id=salon.id) }}" class="btn btn-info">Edit</a>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>

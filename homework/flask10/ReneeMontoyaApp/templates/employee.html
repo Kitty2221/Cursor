@@ -18,9 +18,11 @@
                     <div class="content">{{ employee.department_type }}</div>
                     <div class="content">{{ employee.department.name }}</div>
                 </div>
+                 {% if session.get('user', False) %}
                  <div class="col-sm-13 text-center">
                     <a href="{{ url_for('employee_edit_page', id=employee.id)}}" class="btn btn-info">Edit</a>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>

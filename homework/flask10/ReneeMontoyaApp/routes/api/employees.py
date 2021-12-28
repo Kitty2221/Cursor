@@ -2,7 +2,7 @@ from app import app, api, db
 from models import Employee
 from flask import request
 from flask_restful import Resource
-from utils.helpers import convert_list
+from utils.helpers import convert_list, encrypt_string
 
 
 class EmployeeResource(Resource):
@@ -17,7 +17,7 @@ class EmployeeResource(Resource):
             email=request_data['email'],
             department_type=request_data['department_type'],
             department_id=int(request_data['department_id']),
-            password = request_data['password']
+            password = encrypt_string(request_data['password'])
         )
         db.session.add(employee)
         db.session.commit()
